@@ -2,6 +2,14 @@
 
 A customizable documentation template using the **Sphinx Book Theme**, designed for readable, navigable, and professionally styled docs. This template is suitable for research projects, open-source libraries, robotics stacks, or any technical documentation.
 
+## TODO:
+- [ ] Add docs for ssh setup and thor setup
+- [ ] Calibrate leader-follower
+- [ ] Docker for Thor
+- [ ] Torch with CUDA
+- [ ] Benchmark teleoperation delays on x86 vs ARM
+- [ ] Look into new l4t release
+
 
 ## Table of Contents
 
