@@ -81,6 +81,7 @@ def log_control_info(robot: Robot, dt_s, episode_index=None, frame_index=None, f
 @cache
 def is_headless():
     """Detects if python is running without a monitor."""
+    return True
     try:
         import pynput  # noqa
 
