@@ -1,0 +1,42 @@
+services:
+  devel_docker:
+    profiles:
+      - devel
+    build:
+      context: .
+      dockerfile: devel.Dockerfile
+      args:
+        PYTORCH_MAJOR: "2"
+        PYTORCH_MINOR: "6"
+        PYTORCH_PATCH: "0"
+        CUDA_MAJOR: "12"
+        CUDA_MINOR: "4"
+        CUDA_ADDITIONAL: "cudnn8-devel"
+        DOCKER_IMG_REPO: "pytorch/pytorch"
+    image: ${CONTAINER_NAME}:latest
+
+  thor_docker:
+    profiles:
+      - thor
+    build:
+      context: .
+      dockerfile: thor.Dockerfile
+      args:
+        JETSON_PYTORCH_MAJOR: "25"
+        JETSON_PYTORCH_MINOR: "08"
+        DOCKER_IMG_REPO: "nvcr.io/nvidia/pytorch"
+    image: ${CONTAINER_NAME}:latest
+
+  orin_docker:
+    profiles:
+      - orin
+    build:
+      context: .
+      dockerfile: orin.Dockerfile
+      args:
+        L4T_MAJOR_VERSION: "36"
+        L4T_MINOR_VERSION: "4"
+        L4T_PATCH_VERSION: "0"
+        DOCKER_IMG_REPO: "nvcr.io/nvidia/l4t-jetpack"
+    image: ${CONTAINER_NAME}:latest
+ 

@@ -1,0 +1,74 @@
+# sudo docker run --rm -it \
+#   --network=host \
+#   -e NVIDIA_DRIVER_CAPABILITIES=compute,utility,video,graphics \
+#   --runtime nvidia \
+#   --privileged \
+#   -v /tmp/.X11-unix:/tmp/.X11-unix \
+#   -v /etc/X11:/etc/X11 \
+#   --device /dev/nvhost-vic \
+#   -v /dev:/dev \
+#   lerobot:r38.2.aarch64-cu130-24.04
+
+services:
+  # Devel Docker Service
+  devel_docker:
+    profiles: 
+      - devel
+    container_name: $CONTAINER_NAME
+    image: devel_docker:latest
+    privileged: true
+    ipc: host
+    pid: host
+    network_mode: host
+    runtime: nvidia
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XDG_RUNTIME_DIR="/tmp/runtime-root"
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - /tmp:/tmp
+      - /dev:/dev
+    deploy:
+      resources:
+        reservations:
+            devices:
+              - driver: nvidia
+                count: all
+                capabilities: [gpu]
+    shm_size: 16g
+    group_add:
+      - dialout
+    stdin_open: true
+    tty: true
+
+  thor_docker:
+    profiles:
+      - thor
+    container_name: $CONTAINER_NAME
+    image: thor_docker:latest
+    privileged: true
+    ipc: host
+    pid: host
+    network_mode: host
+    runtime: nvidia
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XDG_RUNTIME_DIR="/tmp/runtime-root"
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - $SCRIPT_DIR/../:/home
+      - /tmp:/tmp
+      - /dev:/dev
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    shm_size: 16g
+    group_add:
+      - dialout
+    stdin_open: true
+    tty: true
+
