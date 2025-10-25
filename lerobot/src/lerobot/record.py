@@ -298,6 +298,12 @@ def record(cfg: RecordConfig) -> LeRobotDataset:
     obs_features = hw_to_dataset_features(robot.observation_features, "observation", cfg.dataset.video)
     dataset_features = {**action_features, **obs_features}
 
+    base_str = time.strftime("%Y-%m-%d_%H-%M-%S")
+    base_root = Path(cfg.dataset.root) if cfg.dataset.root else Path.cwd()
+    cfg.dataset.root = base_root / base_str
+    if not base_root.exists():
+        base_root.mkdir(parents=True, exist_ok=True)
+
     if cfg.resume:
         dataset = LeRobotDataset(
             cfg.dataset.repo_id,

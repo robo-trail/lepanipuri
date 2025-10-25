@@ -14,7 +14,8 @@ lerobot-record \
     --teleop.id=leader \
     --display_data=true \
     --dataset.repo_id=agro/pp \
-    --dataset.root=record-rs \
-    --dataset.num_episodes=2 \
-    --dataset.episode_time_s=30 \
+    --dataset.root=record- \
+    --dataset.num_episodes=20 \
+    --dataset.episode_time_s=600 \
+    --dataset.reset_time_s=3 \
     --dataset.single_task="Prepare panipuri"
