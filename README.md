@@ -1,10 +1,10 @@
 # 🍽️ LePaniPuri: Bimanual Embodied AI for Making Indian Steet Food
 
-LePaniPuri is our Embodied AI Hackathon project, built around teaching bimanual SO-101 arms powered by Jetson Thor and the Groot N1.5 model to make [**Pani Puri**](https://en.wikipedia.org/wiki/Panipuri) - an iconic Indian street food.
+LePaniPuri is our Embodied AI Hackathon project to make [**Pani Puri**](https://en.wikipedia.org/wiki/Panipuri) - an iconic Indian street food. It is built around teaching bimanual SO-101 arms powered by Jetson Thor and the Groot N1.5 model .
 
 ![](./docs/source/_static/imgs/lepanipuri.png)
 
-This project demonstrates embodied AI applied to a culturally rich manipulation task — preparing pani puri using two coordinated SO-101 arms. Both arms perform following task with coordication:
+This project demonstrates embodied AI applied to a culturally rich manipulation task — preparing pani puri using two coordinated SO-101 arms. Both arms perform following task with coordination:
 1. Picking and placing puris
 2. Poking holes into the puris
 3. Stuffing potato fillings
@@ -23,9 +23,9 @@ This project demonstrates embodied AI applied to a culturally rich manipulation 
 
 1. [Key Features](#key-features)
 2. [Prerequisites](#prerequisites)
-   - [Thor Setup](#thor-setup)
+   - [Jetson Thor Setup](#jetson-thor-setup)
    - [Docker Compose Setup](#docker-compose-setup)
-3. [LePaniPuri Repo Setup]()
+3. [Getting Started](#getting-started)
 4. [Troubleshooting](#troubleshooting)
 5. [Support](#support)
 6. [License](#license)
@@ -54,7 +54,7 @@ This project demonstrates embodied AI applied to a culturally rich manipulation 
 > | PyTorch                 | 2.8.0   |
 
 
-### Thor Setup
+### Jetson Thor Setup
 
 > [!NOTE]
 > Refer [Official Jetson Thor Setup](https://docs.nvidia.com/jetson/agx-thor-devkit/user-guide/latest/quick_start.html) for latest documentation.
@@ -98,7 +98,7 @@ This project demonstrates embodied AI applied to a culturally rich manipulation 
 
 ### Docker Compose Setup
 
-- On Jetson Thor, **Docker Compose v2** is to be installed which is distributed through Ubuntu'2 official **apt repository**:
+- On Jetson Thor, **Docker Compose v2** is to be installed which is distributed through Ubuntu 24.04's official **apt repository**:
   ```bash
   sudo apt install docker-compose-v2
   ```
@@ -106,7 +106,46 @@ This project demonstrates embodied AI applied to a culturally rich manipulation 
 
 ## Getting Started
 
+- Clone the lepanipuri repository:
+  ```bash
+  git clone git@github.com:robo-trail/lepanipuri.git
+  cd lepanipuri
+  ```
+
+- Build Jetson Thor Docker:
+  ```bash
+  ./docker/build.sh -t thor
+  ```
+
+- Since there are 4 SO101 arms, get Serial Short ID of each one:
+  ```bash
+  udevadm info --query=property --name=/dev/tty{YOUR} | grep ID_SERIAL_SHORT
+  ```
+  > [!NOTE]
+  > Replace {YOUR} with the specific port. Good practice would be to connect only one arm at a time.
+
+- Once you have ID_SERIAL_SHORT of all the 4 arms, modify ```./lerobot/setup_usb_ports.sh``` file your specific ones:
+  ```bash
+  # Define the ID_SERIAL_SHORT values for each device
+  DEVICE1_ID_SERIAL_SHORT="5AAF270447" # left follower
+  DEVICE2_ID_SERIAL_SHORT="5AB0179027" # right follower
+  DEVICE3_ID_SERIAL_SHORT="5A7A015778" # left leader
+  DEVICE4_ID_SERIAL_SHORT="5AB0181062" # right leader
+  ```
+
+- Now create the symbolic link so that even if the ports change on bootup, you can rely on symbolic link:
+  ```bash
+  ./lerobot/setup_usb_ports.sh
+  ```
+
+- Use run.sh script to attach bash terminal within thor_docker container:
+  ```bash
+  ./docker/run.sh -t thor
+  ```
+
+
 For the latest documentation, see [Sphinx Book Theme Template](https://github.com/trushant05/sphinx_book_theme_template). 
+
 
 
 ## Troubleshooting
