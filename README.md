@@ -112,9 +112,9 @@ This project demonstrates embodied AI applied to a culturally rich manipulation 
   cd lepanipuri
   ```
 
-- Build Jetson Thor Docker:
-  ```bash
-  ./docker/build.sh -t thor
+- Fetch lepanipuri/thor-isaac-groot:v0.1 docker image from Docker Hub:
+  ```
+  docker pull lepanipuri/thor-isaac-groot:v0.1
   ```
 
 - Since there are 4 SO101 arms, get Serial Short ID of each one:

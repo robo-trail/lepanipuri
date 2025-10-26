@@ -45,7 +45,7 @@ services:
     profiles:
       - thor
     container_name: $CONTAINER_NAME
-    image: thor_docker:latest
+    image: lepanipuri/thor-isaac-groot:v0.1
     privileged: true
     ipc: host
     pid: host
