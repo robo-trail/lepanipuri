@@ -154,10 +154,6 @@ This project demonstrates embodied AI applied to a culturally rich manipulation 
   ```
 
 
-For the latest documentation, see [Sphinx Book Theme Template](https://github.com/trushant05/sphinx_book_theme_template). 
-
-
-
 ## Troubleshooting
 
 Please refer to:
