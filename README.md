@@ -143,6 +143,16 @@ This project demonstrates embodied AI applied to a culturally rich manipulation 
   ./docker/run.sh -t thor
   ```
 
+- Run the policy server inside one terminal of docker container:
+  ```bash
+  ./Isaac-GROOT/policy_server.sh
+  ```
+
+- In another terminal inside docker container run policy client:
+  ```bash
+  ./Isaac-GROOT/policy_client.sh
+  ```
+
 
 For the latest documentation, see [Sphinx Book Theme Template](https://github.com/trushant05/sphinx_book_theme_template). 
 
