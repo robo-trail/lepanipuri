@@ -21,10 +21,6 @@ services:
     build:
       context: .
       dockerfile: thor.Dockerfile
-      args:
-        JETSON_PYTORCH_MAJOR: "25"
-        JETSON_PYTORCH_MINOR: "08"
-        DOCKER_IMG_REPO: "nvcr.io/nvidia/pytorch"
     image: ${CONTAINER_NAME}:latest
 
   orin_docker:

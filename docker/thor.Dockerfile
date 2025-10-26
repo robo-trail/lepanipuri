@@ -1,9 +1,9 @@
-ARG JETSON_PYTORCH_MAJOR=25
-ARG JETSON_PYTORCH_MINOR=08
-ARG DOCKER_IMG_REPO="nvcr.io/nvidia/pytorch"
+FROM isaac-gr00t-n1.5:l4t-jp7.0
 
-ARG BASE_IMAGE=${DOCKER_IMG_REPO}:${JETSON_PYTORCH_MAJOR}.${JETSON_PYTORCH_MINOR}-py3
-FROM ${BASE_IMAGE}
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -48,39 +48,9 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-WORKDIR /workspace
+WORKDIR /home
 
-COPY pyproject.toml .
-
-# Set to get precompiled jetson wheels
-RUN export PIP_INDEX_URL=https://pypi.jetson-ai-lab.io/sbsa/cu130 && \
-    export PIP_TRUSTED_HOST=pypi.jetson-ai-lab.io && \
-    pip3 install --upgrade pip setuptools && \
-    pip3 install -e .[thor]
-
-# Build and install decord
-RUN cd /tmp && \
-    git clone https://git.ffmpeg.org/ffmpeg.git && \
-    cd ffmpeg && \
-    git checkout n4.4.2 && \
-    ./configure --enable-shared --enable-pic --prefix=/usr && \
-    make -j$(nproc) && \
-    make install && \
-    cd /tmp && \
-    git clone --recursive https://github.com/dmlc/decord && \
-    cd decord && \
-    mkdir build && cd build && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release && \
-    make && \
-    cd ../python && \
-    python3 setup.py install --user && \
-    cd /workspace && \
-    rm -rf /tmp/ffmpeg /tmp/decord
-
-# Set decord library path environment variable
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/.local/decord/
-
-# # Install librealsense SDK
+# Install librealsense SDK
 RUN git clone --depth=1 https://github.com/IntelRealSense/librealsense.git /usr/src/librealsense \
     && cmake -S /usr/src/librealsense -B /usr/src/librealsense/build \
         -DCMAKE_BUILD_TYPE=Release  \
