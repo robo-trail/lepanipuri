@@ -15,8 +15,9 @@ This project demonstrates embodied AI applied to a culturally rich manipulation 
 
 - [ ] Release Sphinx Documentation
 - [ ] Release Thor Docker for LePaniPuri
-- [ ] Release dataset on Hugging Face
+- [ ] Release training dataset on Hugging Face
 - [ ] Release Brev training workflow
+- [ ] Release Isaac Lab Digital Twin
 
 
 ## Table of Contents
