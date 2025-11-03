@@ -129,7 +129,7 @@ if [[ "$TARGET" == "devel" || "$TARGET" == "thor" || "$TARGET" == "orin" ]]; the
         docker compose --profile "$TARGET" --file docker-compose.run.yml stop
 	docker compose --profile "$TARGET" --file docker-compose.run.yml up -d
         print_info "Attaching to container shell..."
-	update_xauthority
+    	update_xauthority
 
         docker exec -it "$CONTAINER_NAME" bash
 
