@@ -2,9 +2,11 @@ ARG JETSON_PYTORCH_MAJOR=25
 ARG JETSON_PYTORCH_MINOR=08
 ARG DOCKER_IMG_REPO="nvcr.io/nvidia/pytorch"
 
+# Base image for thor docker
 ARG BASE_IMAGE=${DOCKER_IMG_REPO}:${JETSON_PYTORCH_MAJOR}.${JETSON_PYTORCH_MINOR}-py3
 FROM ${BASE_IMAGE}
 
+# Install base dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       python3 \
@@ -48,6 +50,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
+# Set default working directory
 WORKDIR /workspace
 
 COPY pyproject.toml .
@@ -80,7 +83,7 @@ RUN cd /tmp && \
 # Set decord library path environment variable
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/.local/decord/
 
-# # Install librealsense SDK
+# Install librealsense SDK
 RUN git clone --depth=1 https://github.com/IntelRealSense/librealsense.git /usr/src/librealsense \
     && cmake -S /usr/src/librealsense -B /usr/src/librealsense/build \
         -DCMAKE_BUILD_TYPE=Release  \
